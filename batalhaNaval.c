@@ -1,69 +1,52 @@
 #include <stdio.h>
 
+#define TAM 10
+#define NAVIO 3
+
 int main() {
-   
-    int tabuleiro[10][10] = {0}; 
-    int navio_horizontal[3] = {3, 3, 3}; 
-    int navio_vertical[3] = {3, 3, 3};
-
-  
-    int linha_horizontal = 1;
-    int coluna_horizontal = 2;
-
-    int linha_vertical = 4;
-    int coluna_vertical = 6;
-
+    int tabuleiro[TAM][TAM] = {0}; 
     int i;
 
+    int linha1 = 1, coluna1 = 2;
+    if (coluna1 + NAVIO <= TAM) {
+        for (i = 0; i < NAVIO; i++) {
+            tabuleiro[linha1][coluna1 + i] = 3;
+        }
+    }
 
-    if (coluna_horizontal + 3 <= 10) {
-        int sobreposicao = 0;
-
-        for (i = 0; i < 3; i++) {
-            if (tabuleiro[linha_horizontal][coluna_horizontal + i] != 0) {
-                sobreposicao = 1;
-                break;
+    int linha2 = 4, coluna2 = 6;
+    if (linha2 + NAVIO <= TAM) {
+        for (i = 0; i < NAVIO; i++) {
+            if (tabuleiro[linha2 + i][coluna2] == 0) {
+                tabuleiro[linha2 + i][coluna2] = 3;
             }
         }
+    }
 
-        if (!sobreposicao) {
-            for (i = 0; i < 3; i++) {
-                tabuleiro[linha_horizontal][coluna_horizontal + i] = navio_horizontal[i];
+    int linha3 = 0, coluna3 = 0;
+    if (linha3 + NAVIO <= TAM && coluna3 + NAVIO <= TAM) {
+        for (i = 0; i < NAVIO; i++) {
+            if (tabuleiro[linha3 + i][coluna3 + i] == 0) {
+                tabuleiro[linha3 + i][coluna3 + i] = 3;
             }
-        } else {
-            printf("Erro: Sobreposição detectada no navio horizontal.\n");
         }
-    } else {
-        printf("Erro: Navio horizontal ultrapassa os limites do tabuleiro.\n");
     }
 
 
-    if (linha_vertical + 3 <= 10) {
-        int sobreposicao = 0;
-
-        for (i = 0; i < 3; i++) {
-            if (tabuleiro[linha_vertical + i][coluna_vertical] != 0) {
-                sobreposicao = 1;
-                break;
+    int linha4 = 0, coluna4 = 9;
+    if (linha4 + NAVIO <= TAM && coluna4 - (NAVIO - 1) >= 0) {
+        for (i = 0; i < NAVIO; i++) {
+            if (tabuleiro[linha4 + i][coluna4 - i] == 0) {
+                tabuleiro[linha4 + i][coluna4 - i] = 3;
             }
         }
-
-        if (!sobreposicao) {
-            for (i = 0; i < 3; i++) {
-                tabuleiro[linha_vertical + i][coluna_vertical] = navio_vertical[i];
-            }
-        } else {
-            printf("Erro: Sobreposição detectada no navio vertical.\n");
-        }
-    } else {
-        printf("Erro: Navio vertical ultrapassa os limites do tabuleiro.\n");
     }
 
-    
+
     printf("\nTabuleiro Batalha Naval (0 = água, 3 = navio):\n\n");
-    for (int linha = 0; linha < 10; linha++) {
-        for (int coluna = 0; coluna < 10; coluna++) {
-            printf("%d ", tabuleiro[linha][coluna]);
+    for (int l = 0; l < TAM; l++) {
+        for (int c = 0; c < TAM; c++) {
+            printf("%d ", tabuleiro[l][c]);
         }
         printf("\n");
     }
